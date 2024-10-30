@@ -41,84 +41,85 @@ export default function Home() {
       const linksRef = collection(db, "users", userId, "links"); // Modificar a referência
       const queryRef = query(linksRef, orderBy("create", "asc"));
 
-      getDocs(queryRef)
+        getDocs(queryRef)
         .then((snapshot) => {
-          let lista: LinksProps[] = [];
+            let lista = [] as LinksProps[];
 
-          snapshot.forEach((doc) => {
-            lista.push({
-              id: doc.id,
-              name: doc.data().name,
-              url: doc.data().url,
-              bg: doc.data().bg,
-              color: doc.data().color,
-            });
-          });
+            snapshot.forEach((doc) => {
+                lista.push({
+                    id: doc.id,
+                    name: doc.data().name,
+                    url: doc.data().url,
+                    bg: doc.data().bg,
+                    color: doc.data().color
+                })
+            })
 
-          setLinks(lista);
-        });
+            setLinks(lista);
+
+        })
     }
 
-    loadLinks();
-  }, [auth]);
+    loadLinks()
+  },[])
 
   useEffect(() => {
-    function loadSocialLinks() {
-      const docRef = doc(db, "social", "link");
-      getDoc(docRef)
-        .then((snapshot) => {
-          if (snapshot.data() !== undefined) {
+    function loadSocialLinks(){
+    const docRef = doc(db, "social", "link")
+    getDoc(docRef)
+     .then((snapshot) => {
+        if(snapshot.data() !== undefined){
             setSocialLinks({
-              facebook: snapshot.data()?.facebook,
-              instagram: snapshot.data()?.instagram,
-              youtube: snapshot.data()?.youtube,
-            });
-          }
-        });
+                facebook: snapshot.data()?.facebook,
+                instagram: snapshot.data()?.instagram,
+                youtube: snapshot.data()?.youtube,
+            })
+        }
+     })
     }
 
     loadSocialLinks();
-  }, []);
 
-  return (
-    <div className="flex flex-col w-full py-4 items-center justify-center">
-      <h1 className="md:text-4xl text-3xl font-bold text-white mt-20">My Links</h1>
-      <span className="text-green-50 mb-5 mt-5 text-2xl">Veja meus links ⬇️</span>
+  },[])
 
-      <main className="flex flex-col w-11/12 max-w-xl text-center">
-        {links.map((link) => (
-          <section
-            style={{ backgroundColor: link.bg }}
-            key={link.id}
-            className="bg-white mb-4 w-full py-2 rounded-lg select-none transition-transform hover:scale-105 cursor-pointer"
-          >
-            <a href={link.url} target="_blank" rel="noopener noreferrer">
-              <p
-                style={{ color: link.color }}
-                className="text-base md:text-lg"
-              >
-                {link.name}
-              </p>
-            </a>
-          </section>
-        ))}
+    return(
+        <div className="flex flex-col w-full py-4 items-center justify-center">
+            <h1 className="md:text-4xl text-3xl font-bold text-white mt-20">My Links</h1>
+            <span className="text-green-50 mb-5 mt-5 text-2xl">Veja meus links ⬇️</span>
 
-        {socialLinks && Object.keys(socialLinks).length > 0 && (
-          <footer className="flex justify-center gap-3 my-4">
-            <Social url={socialLinks.facebook}>
-              <FaFacebook size={35} color="#FFF" />
-            </Social>
+            <main className="flex flex-col w-11/12 max-w-xl text-center">
+                {links.map((link) => (
+                    <section
+                     style={{ backgroundColor: link.bg }}
+                     key={link.id}
+                     className="bg-white mb-4 w-full py-2 rounded-lg select-none transition-transform hover:scale-105 cursor-pointer">
+                        <a href={link.url} target="_blank">
+                            <p
+                            style={{ color: link.color }}
+                            className="texte-base md:text-lg">
+                                {link.name}
+                            </p>
+                        </a>
+                </section>
+                ))}
 
-            <Social url={socialLinks.instagram}>
-              <FaInstagram size={35} color="#FFF" />
-            </Social>
+                { socialLinks && Object.keys(socialLinks).length > 0 && (
+                    <footer className="flex justify-center gap-3 my-4" >
+                        <Social url={socialLinks?.facebook}>
+                            <FaFacebook size={35} color="#FFF"/>
+                        </Social>
 
-            <Social url={socialLinks.youtube}>
-              <FaWhatsapp size={35} color="#FFF" />
-            </Social>
-          </footer>
-        )}
-      </main>
-    </div>
-  );
+                        <Social url={socialLinks.instagram}>
+                            <FaInstagram size={35} color="#FFF"/>
+                        </Social>
+
+                        <Social url={socialLinks?.youtube}>
+                            <FaWhatsapp size={35} color="#FFF"/>
+                        </Social>
+                </footer>
+                ) }
+
+            </main>
+        </div>
+    )
 }
