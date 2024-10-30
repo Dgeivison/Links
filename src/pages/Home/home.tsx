@@ -25,7 +25,7 @@ interface SocialLinksProps {
     youtube: string;
 }
 
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa"
+import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa"
 
 export default function Home() {
   const [links, setLinks] = useState<LinksProps[]>([]);
@@ -109,7 +109,7 @@ export default function Home() {
                         </Social>
 
                         <Social url={socialLinks?.youtube}>
-                            <FaYoutube size={35} color="#FFF"/>
+                            <FaWhatsapp size={35} color="#FFF"/>
                         </Social>
                 </footer>
                 ) }
