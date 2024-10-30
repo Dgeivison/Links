@@ -70,7 +70,7 @@ export default function Networks() {
                   onChange={(e) => setInstagram(e.target.value)}
                 />
 
-                <label className="text-white font-medium mt-3 mb-3">Link do youtube</label>
+                <label className="text-white font-medium mt-3 mb-3">Link do whatsapp</label>
                 <Input
                   type="url"
                   placeholder="Digite o url do whatsapp..."
